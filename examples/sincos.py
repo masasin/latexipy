@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import latexipy as lp
+from latexipy import latexipy as lp
 
 
 if __name__ == '__main__':
