@@ -169,7 +169,7 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
 
 
 @contextmanager
-def figure(filename, *, folder='img', exts=['pgf', 'png'], size=fig_size(),
+def figure(filename, *, folder='img', exts=['pgf', 'png'], size=None,
            mkdir=True):
     '''
     The primary interface for creating figures.
@@ -187,6 +187,8 @@ def figure(filename, *, folder='img', exts=['pgf', 'png'], size=fig_size(),
     exts : Sequence
         A list of all the extensions to be saved, without the dot. Default is
         ['pgf', 'png'].
+    size : Optional[Sequence[float, float]]
+        The width and height of the figure, in inches. Default is `fig_size()`.
     mkdir : Optional[bool]
         Whether the folder should be created automatically if it does not exist.
         Default is True.
