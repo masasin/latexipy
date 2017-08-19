@@ -176,10 +176,10 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
 def figure(filename, *, folder='img', exts=['pgf', 'png'], size=fig_size(),
            mkdir=True):
     '''
-    A context manager for saving figures.
+    The primary interface for creating figures.
 
-    Any matplotlib-derived code in this scope is valid, and should output as
-    expected.
+    Any matplotlib-derived code in the scope of this context manager is valid,
+    and should output as expected.
 
     Parameters
     ----------
