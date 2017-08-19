@@ -1,0 +1,2 @@
+'''Examples package for latexipy.'''
+
