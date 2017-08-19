@@ -11,3 +11,4 @@ cryptography
 PyYAML
 pytest
 pytest-runner
+matplotlib
