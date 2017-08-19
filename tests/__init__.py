@@ -1,3 +1,1 @@
-# -*- coding: utf-8 -*-
-
-"""Unit test package for latexipy."""
+'''Unit test package for latexipy.'''
