@@ -149,8 +149,9 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
     if mkdir:
         if folder.is_file():
             msg = 'A file exists at directory location'
-            logger.error(msg + f': {str(folder)!r}')
-            raise NotADirectoryError(errno.ENOTDIR, msg, str(folder))
+            e = NotADirectoryError(errno.ENOTDIR, msg, str(folder))
+            logger.error(e)
+            return
         folder.mkdir(parents=True, exist_ok=True)
 
     for ext in exts:
@@ -158,18 +159,9 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
             logger.info(f'  Saving {ext}...')
         try:
             plt.savefig(str(folder/f'{filename}.{ext}'))
-        except FileNotFoundError as e:
-            logger.error(
-                f'No such directory: {str(folder)!r}\n'
-                'Please create it, or set `mkdir` to True.'
-                )
-            raise e
-        except PermissionError:
-            logger.error(
-                f'Cannot write to directory: {str(folder)!r}\n'
-                'Do you have permission?'
-                )
-            raise
+        except (FileNotFoundError, PermissionError) as e:
+            logger.error(e)
+            break
 
 
 @contextmanager
