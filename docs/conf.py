@@ -42,6 +42,11 @@ import latexipy
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
 
+napoleon_use_admonition_for_examples = True
+napoleon_use_admonition_for_notes = True
+napoleon_use_admonition_for_references = True
+napoleon_include_special_with_doc = True
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -57,6 +62,7 @@ master_doc = 'index'
 # General information about the project.
 project = u'LaTeXiPy'
 copyright = u"2017, Jean Nassar"
+author = u'Jean Nassar'
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -258,7 +264,7 @@ texinfo_documents = [
      u'LaTeXiPy Documentation',
      u'Jean Nassar',
      'latexipy',
-     'One line description of project.',
+     'Generate beatiful plots for LaTeX using your existing matplotlib-based code.',
      'Miscellaneous'),
 ]
 
@@ -273,3 +279,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+# Suppress warnings.
+suppress_warnings = ['image.nonlocal_uri']
