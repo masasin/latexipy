@@ -159,7 +159,11 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
             logger.info(f'  Saving {ext}...')
         try:
             plt.savefig(str(folder/f'{filename}.{ext}'))
-        except (FileNotFoundError, PermissionError) as e:
+        except FileNotFoundError as e:
+            logger.error(e)
+            logger.error('Create the directory, or set `mkdir` to True.')
+            break
+        except PermissionError as e:
             logger.error(e)
             break
 
