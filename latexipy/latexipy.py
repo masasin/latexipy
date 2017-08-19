@@ -17,8 +17,9 @@ logger = logging.getLogger('latexipy')
 
 
 INCH_PER_POINT = 1/72.27
-MAX_HEIGHT_INCH = 8
+GOLDEN_RATIO = (math.sqrt(5)-1.0)/2.0
 
+MAX_HEIGHT_INCH = 8
 FONT_SIZE = 8
 
 PARAMS = {
@@ -105,8 +106,7 @@ def fig_size(fig_width_tw=0.9, *, fig_ratio=None, fig_height=None, n_columns=1,
 
     if fig_ratio is None:
         if fig_height is None:
-            golden_mean = (math.sqrt(5)-1.0)/2.0
-            fig_ratio = golden_mean
+            fig_ratio = GOLDEN_RATIO
         else:
             fig_ratio = fig_height / fig_width
 
