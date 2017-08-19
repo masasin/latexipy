@@ -81,8 +81,8 @@ def fig_size(fig_width_tw=0.9, *, fig_ratio=None, fig_height=None, n_columns=1,
         specified, `fig_ratio` is calculated from that and `fig_width`. Default
         is the golden ratio.
     fig_height : Optional[float]
-        The height of the figure in inches. Default is the golden ratio of the
-        figure width.
+        The height of the figure in inches. If `fig_ratio` is specified,
+        `fig_height` is ignored. Default is the golden ratio of the width.
     n_columns : Optional[int]
         The number of equally sized columns in the document. The figure will
         never be larger than the width of one column.  Default is 1.
