@@ -8,7 +8,6 @@ import logging
 import math
 from pathlib import Path
 import sys
-from typing import Sequence
 import warnings
 
 import matplotlib.pyplot as plt
