@@ -3,6 +3,7 @@ Automatically change matplotlib figures to LaTeX figures.
 
 '''
 from contextlib import contextmanager
+import errno
 import logging
 import math
 from pathlib import Path
@@ -119,7 +120,7 @@ def fig_size(fig_width_tw=0.9, *, fig_ratio=None, fig_height=None, n_columns=1,
     return fig_width, fig_height
 
 
-def save_fig(filename, folder, exts, from_context=False):
+def save_fig(filename, folder, exts, from_context=False, mkdir=True):
     '''
     Save the figure in each of the extensions.
 
@@ -134,19 +135,46 @@ def save_fig(filename, folder, exts, from_context=False):
     from_context : Optional[bool]
         Whether the function is being called from the context manager. This only
         affects the logging output. Default is False.
+    mkdir : Optional[bool]
+        Whether the folder should be created automatically if it does not exist.
+        Default is True.
 
     '''
+    folder = Path(folder)
+
     if not from_context:
         logger.info(f'Saving {filename}...  ')
     plt.tight_layout(0)
+
+    if mkdir:
+        if folder.is_file():
+            msg = 'A file exists at directory location'
+            logger.error(msg + f': {str(folder)!r}')
+            raise NotADirectoryError(errno.ENOTDIR, msg, str(folder))
+        folder.mkdir(parents=True, exist_ok=True)
+
     for ext in exts:
         if from_context:
             logger.info(f'  Saving {ext}...')
-        plt.savefig(str(Path(folder)/f'{filename}.{ext}'))
+        try:
+            plt.savefig(str(folder/f'{filename}.{ext}'))
+        except FileNotFoundError as e:
+            logger.error(
+                f'No such directory: {str(folder)!r}\n'
+                'Please create it, or set `mkdir` to True.'
+                )
+            raise e
+        except PermissionError:
+            logger.error(
+                f'Cannot write to directory: {str(folder)!r}\n'
+                'Do you have permission?'
+                )
+            raise
 
 
 @contextmanager
-def figure(filename, *, folder='img', exts=['pgf', 'png'], size=fig_size()):
+def figure(filename, *, folder='img', exts=['pgf', 'png'], size=fig_size(),
+           mkdir=True):
     '''
     A context manager for saving figures.
 
@@ -163,6 +191,9 @@ def figure(filename, *, folder='img', exts=['pgf', 'png'], size=fig_size()):
     exts : Sequence
         A list of all the extensions to be saved, without the dot. Default is
         ['pgf', 'png'].
+    mkdir : Optional[bool]
+        Whether the folder should be created automatically if it does not exist.
+        Default is True.
 
     Notes
     -----
@@ -177,5 +208,5 @@ def figure(filename, *, folder='img', exts=['pgf', 'png'], size=fig_size()):
     logger.info('  Plotting...')
     yield
     plt.gcf().set_size_inches(*size)
-    save_fig(filename, folder=folder, exts=exts, from_context=True)
+    save_fig(filename, folder=folder, exts=exts, from_context=True, mkdir=mkdir)
     plt.close()
