@@ -138,19 +138,36 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
         Whether the folder should be created automatically if it does not exist.
         Default is True.
 
+    Raises
+    ------
+    FileNotFoundError
+        If the target directory does not exist and cannot be created.
+    NotADirectoryError
+        If the target directory is actually a file.
+    PermissionError
+        If there is no permission to write to the target directory.
+    ValueError
+        If there are no figures to save.
+
     '''
     folder = Path(folder)
 
     if not from_context:
         logger.info(f'Saving {filename}...  ')
-    plt.tight_layout(0)
+
+    try:
+        plt.tight_layout(0)
+    except ValueError as e:
+        logger.error(e)
+        logger.error('No figures to save.')
+        raise
 
     if mkdir:
         if folder.is_file():
             msg = 'A file exists at directory location'
             e = NotADirectoryError(errno.ENOTDIR, msg, str(folder))
             logger.error(e)
-            return
+            raise
         folder.mkdir(parents=True, exist_ok=True)
 
     for ext in exts:
@@ -161,10 +178,10 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
         except FileNotFoundError as e:
             logger.error(e)
             logger.error('Create the directory, or set `mkdir` to True.')
-            break
+            raise
         except PermissionError as e:
             logger.error(e)
-            break
+            raise
 
 
 @contextmanager
