@@ -218,6 +218,8 @@ def figure(filename, *, folder='img', exts=['pgf', 'png'], size=None,
     `plt.gcf().canvas.get_supported_filetypes_grouped()`
 
     '''
+    if size is None:
+        size = fig_size()
     logger.info(f'{filename}:')
     logger.info('  Plotting...')
     yield
