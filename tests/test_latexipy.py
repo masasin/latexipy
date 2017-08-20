@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''Tests for `latexipy` package.'''
 import math
-from unittest.mock import patch
+from unittest.mock import Mock
 
 import matplotlib
 import matplotlib.pyplot
