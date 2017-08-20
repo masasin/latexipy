@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot
 import pytest
 
-from latexipy import latexipy as lp
+import latexipy as lp
 
 
 class TestFigSize:
