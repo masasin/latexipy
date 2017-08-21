@@ -16,12 +16,12 @@ LaTeXiPy
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/masasin/latexipy/shield.svg
-     :target: https://pyup.io/repos/github/masasin/latexipy/
-     :alt: Updates
+        :target: https://pyup.io/repos/github/masasin/latexipy/
+        :alt: Updates
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
-     :target: https://github.com/masasin/latexipy
-     :alt: MIT License
+        :target: https://github.com/masasin/latexipy
+        :alt: MIT License
 
 
 Generate beautiful plots for LaTeX using your existing matplotlib-based code.
