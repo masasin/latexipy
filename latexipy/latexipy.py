@@ -147,7 +147,7 @@ def save_fig(filename, directory, exts, from_context=False, mkdir=True):
     PermissionError
         If there is no permission to write to the target directory.
     ValueError
-        If there are no figures to save.
+        If the format is not supported.
 
     '''
     directory = Path(directory)
@@ -158,9 +158,7 @@ def save_fig(filename, directory, exts, from_context=False, mkdir=True):
     try:
         plt.tight_layout(0)
     except ValueError as e:
-        logger.error(e)
-        logger.error('No figures to save.')
-        raise
+        warnings.warn('No figures to save.')
 
     if mkdir:
         if directory.is_file():
@@ -182,6 +180,9 @@ def save_fig(filename, directory, exts, from_context=False, mkdir=True):
             raise
         except PermissionError as e:
             logger.error(e)
+            raise
+        except ValueError as e:
+            logger.error(f'Unsupported file format: {ext}')
             raise
 
 
