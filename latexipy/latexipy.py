@@ -66,23 +66,23 @@ def latexify(params=PARAMS):
     plt.switch_backend('pgf')
 
 
-def fig_size(fig_width_tw=0.9, *, fig_ratio=None, fig_height=None, n_columns=1,
+def fig_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
              max_height=MAX_HEIGHT_INCH, doc_width_pt=345):
     r'''
     Get the necessary figure size.
 
     Parameters
     ----------
-    fig_width_tw : Optional[float]
+    width_tw : Optional[float]
         The width of the figure, as a proportion of the text width, between 0
         and 1. Default is 0.9.
-    fig_ratio: Optional[float]
-        The ratio of the figure height to figure width. If `fig_height` is
-        specified, `fig_ratio` is calculated from that and `fig_width`. Default
-        is the golden ratio.
-    fig_height : Optional[float]
-        The height of the figure in inches. If `fig_ratio` is specified,
-        `fig_height` is ignored. Default is the golden ratio of the width.
+    ratio: Optional[float]
+        The ratio of the figure height to figure width. If `height` is
+        specified, `ratio` is calculated from that and `width`. Default is the
+        golden ratio.
+    height : Optional[float]
+        The height of the figure in inches. If `ratio` is specified, `height` is
+        ignored. Default is the golden ratio of the width.
     n_columns : Optional[int]
         The number of equally sized columns in the document. The figure will
         never be larger than the width of one column.  Default is 1.
@@ -90,33 +90,33 @@ def fig_size(fig_width_tw=0.9, *, fig_ratio=None, fig_height=None, n_columns=1,
         The maximum height of the figure, in inches. Default is
         `MAX_HEIGHT_INCH`.
     doc_width_pt : float
-        The text width of the document, in points. Can be obtained by typing
+        The text width of the document, in points. It can be obtained by typing
         `\the\textwidth` in the LaTeX document. Default is 345.
 
     Returns
     -------
-    fig_width : float
+    width : float
         The figure width, in inches.
-    fig_height : float
+    height : float
         The figure height in inches.
 
     '''
     doc_width_in = doc_width_pt * INCH_PER_POINT
-    fig_width = doc_width_in * fig_width_tw / n_columns
+    width = doc_width_in * width_tw / n_columns
 
-    if fig_ratio is None:
-        if fig_height is None:
-            fig_ratio = GOLDEN_RATIO
+    if ratio is None:
+        if height is None:
+            ratio = GOLDEN_RATIO
         else:
-            fig_ratio = fig_height / fig_width
+            ratio = height / width
 
-    fig_height = fig_width * fig_ratio
+    height = width * ratio
 
-    if fig_height > max_height:
-        warnings.warn(f'fig_height too large at {fig_height} inches; '
+    if height > max_height:
+        warnings.warn(f'height too large at {height} inches; '
                       'will automatically reduce to {max_height} inches.')
-        fig_height = max_height
-    return fig_width, fig_height
+        height = max_height
+    return width, height
 
 
 def save_figure(filename, directory, exts, from_context=False, mkdir=True):
