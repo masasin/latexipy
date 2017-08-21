@@ -10,5 +10,6 @@ sphinx-rtd-theme
 cryptography
 PyYAML
 pytest
+pytest-cov
 pytest-runner
 matplotlib
