@@ -20,6 +20,7 @@ LaTeXiPy
 
 Generate beautiful plots for LaTeX using your existing matplotlib-based code.
 
+You can also use this package to generate plots without using LaTeX. Just don't run `latexify()`.
 
 * Free software: MIT license
 * Documentation: https://latexipy.readthedocs.io.
