@@ -15,6 +15,15 @@ import pytest
 import latexipy as lp
 
 
+def test_latexify():
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            lp.latexify(lp.PARAMS)
+
+            mock_update.assert_called_once_with(lp.PARAMS)
+            mock_switch.assert_called_once_with('pgf')
+
+
 class TestFigureSize:
     def setup(self):
         self.width = 345 * 0.9 * lp.INCH_PER_POINT
