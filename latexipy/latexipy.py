@@ -187,11 +187,12 @@ def save_fig(filename, directory, exts, from_context=False, mkdir=True):
         try:
             plt.savefig(str(directory/full_filename))
         except FileNotFoundError as e:
-            logger.error(e)
-            logger.error('Create the directory, or set `mkdir` to True.')
+            logger.error(f'Directory does not exist: {str(directory)!r}.'
+                          'Please create it or set mkdir to True.')
             raise
         except PermissionError as e:
-            logger.error(e)
+            logger.error(f'Permission denied for file ({full_filename!r}) in'
+                         f'directory: {str(directory)!r}')
             raise
         except ValueError as e:
             logger.error(f'Unsupported file format: {ext}')
