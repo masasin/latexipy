@@ -81,8 +81,8 @@ def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
         specified, `ratio` is calculated from that and `width`. Default is the
         golden ratio.
     height : Optional[float]
-        The height of the figure in inches. If `ratio` is specified, `height` is
-        ignored. Default is the golden ratio of the width.
+        The height of the figure in inches. If `ratio` is specified, `height`
+        is ignored. Default is the golden ratio of the width.
     n_columns : Optional[int]
         The number of equally sized columns in the document. The figure will
         never be larger than the width of one column.  Default is 1.
@@ -178,7 +178,8 @@ def save_figure(filename, directory, exts, mkdir=True,
         try:
             directory.mkdir(parents=True, exist_ok=True)
         except PermissionError as e:
-            logger.error(f'Permission denied for directory: {str(directory)!r}')
+            logger.error('Permission denied for directory: '
+                         f'{str(directory)!r}')
             raise
 
     for ext in exts:

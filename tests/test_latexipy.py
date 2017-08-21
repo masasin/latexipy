@@ -82,7 +82,8 @@ class TestSaveFigure:
     def test_raises_error_if_no_permission_directory_exists(self):
         with patch('matplotlib.pyplot.tight_layout'), \
                 patch('pathlib.Path.mkdir'), \
-                patch('matplotlib.pyplot.savefig', side_effect=PermissionError):
+                patch('matplotlib.pyplot.savefig',
+                      side_effect=PermissionError):
             with pytest.raises(PermissionError):
                 self.f()
 
