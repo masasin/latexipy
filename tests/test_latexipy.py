@@ -45,7 +45,7 @@ class TestFigSize:
         assert lp.figure_size(n_columns=2) == (width, height)
 
 
-class TestSaveFig:
+class TestSaveFigure:
     def setup(self):
         self.f = partial(lp.save_figure, 'foo', 'bar', ['png'])
 
