@@ -8,7 +8,8 @@ import inspect
 import math
 from unittest.mock import patch
 
-import matplotlib
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot
 import pytest
 
