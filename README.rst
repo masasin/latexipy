@@ -11,10 +11,6 @@ LaTeXiPy
         :target: https://travis-ci.org/masasin/latexipy
         :alt: Test status
 
-.. image:: https://codecov.io/gh/masasin/latexipy/branch/master/graph/badge.svg
-        :target: https://codecov.io/gh/masasin/latexipy
-        :alt: Coverage status
-
 .. image:: https://readthedocs.org/projects/latexipy/badge/?version=latest
         :target: https://latexipy.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
