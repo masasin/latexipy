@@ -189,7 +189,7 @@ def save_figure(filename, directory, exts, mkdir=True,
             plt.savefig(str(directory/full_filename))
         except FileNotFoundError as e:
             logger.error(f'Directory does not exist: {str(directory)!r}.'
-                          'Please create it or set mkdir to True.')
+                         'Please create it or set mkdir to True.')
             raise
         except PermissionError as e:
             logger.error(f'Permission denied for file ({full_filename!r}) in'
