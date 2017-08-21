@@ -15,7 +15,7 @@ import pytest
 import latexipy as lp
 
 
-class TestFigSize:
+class TestFigureSize:
     def setup(self):
         self.width = 345 * 0.9 * lp.INCH_PER_POINT
 
