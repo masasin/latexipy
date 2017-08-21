@@ -4,6 +4,7 @@ Tests for `latexipy` package.
 
 '''
 from functools import partial
+import inspect
 import math
 from unittest.mock import patch
 
@@ -95,3 +96,57 @@ class TestSaveFigure:
                 patch('matplotlib.pyplot.savefig') as mock_savefig:
             self.f()
             assert mock_savefig.called_once()
+
+
+class TestFigure:
+    def test_default_size_is_figure_size(self):
+        default_size = lp.figure_size()
+
+        with patch('matplotlib.figure.Figure.set_size_inches') as mock_set, \
+                patch('latexipy.latexipy.save_figure'):
+            with lp.figure('filename'):
+                pass
+
+            mock_set.assert_called_once_with(*default_size)
+
+    def test_figure_size_is_kwarg_size(self):
+        size = (6, 6)
+        with patch('matplotlib.figure.Figure.set_size_inches') as mock_set, \
+                patch('latexipy.latexipy.save_figure'):
+            with lp.figure('filename', size=size):
+                pass
+
+            mock_set.assert_called_once_with(*size)
+
+    def test_parameters_passed_all_kwargs_default(self):
+        params = inspect.signature(lp.figure).parameters
+
+        with patch('matplotlib.figure.Figure.set_size_inches'), \
+                patch('latexipy.latexipy.save_figure') as mock_save_figure:
+            with lp.figure('filename'):
+                pass
+
+            mock_save_figure.assert_called_once_with(
+                filename='filename',
+                directory=params['directory'].default,
+                exts=params['exts'].default,
+                mkdir=params['mkdir'].default,
+                from_context_manager=True,
+            )
+
+    def test_parameters_passed_custom_kwargs(self):
+        params = inspect.signature(lp.figure).parameters
+
+        with patch('matplotlib.figure.Figure.set_size_inches'), \
+                patch('latexipy.latexipy.save_figure') as mock_save_figure:
+            with lp.figure('filename', directory='directory', exts='exts',
+                           mkdir='mkdir'):
+                pass
+
+            mock_save_figure.assert_called_once_with(
+                filename='filename',
+                directory='directory',
+                exts='exts',
+                mkdir='mkdir',
+                from_context_manager=True,
+            )
