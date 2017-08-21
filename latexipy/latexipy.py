@@ -7,7 +7,6 @@ import errno
 import logging
 import math
 from pathlib import Path
-import sys
 import warnings
 
 import matplotlib.pyplot as plt
