@@ -119,7 +119,7 @@ def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
     return width, height
 
 
-def save_figure(filename, directory, exts, from_context=False, mkdir=True):
+def save_figure(filename, directory, exts, mkdir=True, from_context=False):
     '''
     Save the figure in each of the extensions.
 
@@ -131,12 +131,12 @@ def save_figure(filename, directory, exts, from_context=False, mkdir=True):
         The name of the directory in which to store the saved files.
     exts : Sequence
         A list of all the extensions to be saved, without the dot.
-    from_context : Optional[bool]
-        Whether the function is being called from the context manager. This only
-        affects the logging output. Default is False.
     mkdir : Optional[bool]
         Whether the directory should be created automatically if it does not
         exist.  Default is True.
+    from_context : Optional[bool]
+        Whether the function is being called from the context manager. This only
+        affects the logging output. Default is False.
 
     Raises
     ------
@@ -251,6 +251,6 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
     logger.info('  Plotting...')
     yield
     plt.gcf().set_size_inches(*size)
-    save_figure(filename, directory=directory, exts=exts, from_context=True,
-                mkdir=mkdir)
+    save_figure(filename, directory=directory, exts=exts, mkdir=mkdir,
+                from_context=True)
     plt.close()
