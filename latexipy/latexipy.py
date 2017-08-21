@@ -174,7 +174,11 @@ def save_fig(filename, directory, exts, from_context=False, mkdir=True):
             e = NotADirectoryError(errno.ENOTDIR, msg, str(directory))
             logger.error(f'Directory set to file: {str(directory)}')
             raise e
-        directory.mkdir(parents=True, exist_ok=True)
+        try:
+            directory.mkdir(parents=True, exist_ok=True)
+        except PermissionError as e:
+            logger.error(f'Permission denied for directory: {str(directory)!r}')
+            raise
 
     for ext in exts:
         if from_context:
