@@ -251,5 +251,5 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
     yield
     plt.gcf().set_size_inches(*size)
     save_figure(filename, directory=directory, exts=exts, from_context=True,
-             mkdir=mkdir)
+                mkdir=mkdir)
     plt.close()
