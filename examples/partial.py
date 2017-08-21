@@ -10,7 +10,7 @@ import latexipy as lp
 if __name__ == '__main__':
     lp.latexify()
 
-    figure = partial(lp.figure, folder='some_images', exts=['png'])
+    figure = partial(lp.figure, directory='some_images', exts=['png'])
 
     x = np.linspace(-np.pi, np.pi)
     y1 = np.sin(x)

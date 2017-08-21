@@ -119,7 +119,7 @@ def fig_size(fig_width_tw=0.9, *, fig_ratio=None, fig_height=None, n_columns=1,
     return fig_width, fig_height
 
 
-def save_fig(filename, folder, exts, from_context=False, mkdir=True):
+def save_fig(filename, directory, exts, from_context=False, mkdir=True):
     '''
     Save the figure in each of the extensions.
 
@@ -127,7 +127,7 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
     ----------
     filename : str
         The base name of the file, without extensions.
-    folder : str
+    directory : str
         The name of the directory in which to store the saved files.
     exts : Sequence
         A list of all the extensions to be saved, without the dot.
@@ -135,8 +135,8 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
         Whether the function is being called from the context manager. This only
         affects the logging output. Default is False.
     mkdir : Optional[bool]
-        Whether the folder should be created automatically if it does not exist.
-        Default is True.
+        Whether the directory should be created automatically if it does not
+        exist.  Default is True.
 
     Raises
     ------
@@ -150,7 +150,7 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
         If there are no figures to save.
 
     '''
-    folder = Path(folder)
+    directory = Path(directory)
 
     if not from_context:
         logger.info(f'Saving {filename}...  ')
@@ -163,18 +163,19 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
         raise
 
     if mkdir:
-        if folder.is_file():
+        if directory.is_file():
             msg = 'A file exists at directory location'
-            e = NotADirectoryError(errno.ENOTDIR, msg, str(folder))
-            logger.error(e)
+            e = NotADirectoryError(errno.ENOTDIR, msg, str(directory))
+            logger.error(f'Directory set to file: {str(directory)}')
             raise
-        folder.mkdir(parents=True, exist_ok=True)
+        directory.mkdir(parents=True, exist_ok=True)
 
     for ext in exts:
         if from_context:
             logger.info(f'  Saving {ext}...')
+        full_filename = f'{filename}.{ext}'
         try:
-            plt.savefig(str(folder/f'{filename}.{ext}'))
+            plt.savefig(str(directory/full_filename))
         except FileNotFoundError as e:
             logger.error(e)
             logger.error('Create the directory, or set `mkdir` to True.')
@@ -185,7 +186,7 @@ def save_fig(filename, folder, exts, from_context=False, mkdir=True):
 
 
 @contextmanager
-def figure(filename, *, folder='img', exts=['pgf', 'png'], size=None,
+def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
            mkdir=True):
     '''
     The primary interface for creating figures.
@@ -197,7 +198,7 @@ def figure(filename, *, folder='img', exts=['pgf', 'png'], size=None,
     ----------
     filename : str
         The base name of the file, without extensions.
-    folder : Optional[str]
+    directory : Optional[str]
         The name of the directory in which to store the saved files. Default is
         'img'.
     exts : Sequence
@@ -206,8 +207,8 @@ def figure(filename, *, folder='img', exts=['pgf', 'png'], size=None,
     size : Optional[Sequence[float, float]]
         The width and height of the figure, in inches. Default is `fig_size()`.
     mkdir : Optional[bool]
-        Whether the folder should be created automatically if it does not exist.
-        Default is True.
+        Whether the directory should be created automatically if it does not
+        exist.  Default is True.
 
     Notes
     -----
@@ -224,5 +225,6 @@ def figure(filename, *, folder='img', exts=['pgf', 'png'], size=None,
     logger.info('  Plotting...')
     yield
     plt.gcf().set_size_inches(*size)
-    save_fig(filename, folder=folder, exts=exts, from_context=True, mkdir=mkdir)
+    save_fig(filename, directory=directory, exts=exts, from_context=True,
+             mkdir=mkdir)
     plt.close()
