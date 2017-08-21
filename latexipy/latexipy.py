@@ -114,7 +114,7 @@ def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
 
     if height > max_height:
         warnings.warn(f'height too large at {height} inches; '
-                      'will automatically reduce to {max_height} inches.')
+                      f'will automatically reduce to {max_height} inches.')
         height = max_height
     return width, height
 
