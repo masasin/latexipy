@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 '''Tests for `latexipy` package.'''
+from functools import partial
 import math
-from unittest.mock import Mock
+from unittest.mock import patch
 
 import matplotlib
 import matplotlib.pyplot
@@ -39,3 +40,55 @@ class TestFigSize:
         width = self.width / 2
         height = lp.GOLDEN_RATIO * width
         assert lp.fig_size(n_columns=2) == (width, height)
+
+
+class TestSaveFig:
+    def setup(self):
+        self.f = partial(lp.save_fig, 'foo', 'bar', ['png'])
+
+    def test_raises_error_if_directory_does_not_exist(self):
+        with patch('matplotlib.pyplot.tight_layout'), \
+                patch('matplotlib.pyplot.savefig',
+                      side_effect=FileNotFoundError):
+            with pytest.raises(FileNotFoundError):
+                self.f(mkdir=False)
+
+    def test_raises_error_if_directory_is_file(self):
+        with patch('matplotlib.pyplot.tight_layout'), \
+                patch('pathlib.Path.is_file', return_value=True):
+            with pytest.raises(NotADirectoryError):
+                self.f()
+
+    def test_raises_error_if_no_permission_directory_does_not_exist(self):
+        with patch('matplotlib.pyplot.tight_layout'), \
+                patch('pathlib.Path.mkdir', side_effect=PermissionError), \
+                patch('matplotlib.pyplot.savefig'):
+            with pytest.raises(PermissionError):
+                self.f()
+
+    def test_raises_error_if_no_permission_directory_exists(self):
+        with patch('matplotlib.pyplot.tight_layout'), \
+                patch('pathlib.Path.mkdir'), \
+                patch('matplotlib.pyplot.savefig', side_effect=PermissionError):
+            with pytest.raises(PermissionError):
+                self.f()
+
+    def test_raises_error_if_file_format_not_supported(self):
+        with patch('matplotlib.pyplot.tight_layout'), \
+                patch('pathlib.Path.mkdir'):
+            with pytest.raises(ValueError):
+                lp.save_fig('foo', 'bar', exts=['foo'])
+
+
+    def test_warns_if_no_figures(self):
+        with patch('pathlib.Path.mkdir'), \
+                patch('matplotlib.pyplot.savefig'):
+            with pytest.warns(UserWarning):
+                self.f()
+
+    def test_saves_if_all_good(self):
+        with patch('matplotlib.pyplot.tight_layout'), \
+                patch('pathlib.Path.mkdir'), \
+                patch('matplotlib.pyplot.savefig') as mock_savefig:
+            self.f()
+            assert mock_savefig.called_once()
