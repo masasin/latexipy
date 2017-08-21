@@ -119,7 +119,8 @@ def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
     return width, height
 
 
-def save_figure(filename, directory, exts, mkdir=True, from_context=False):
+def save_figure(filename, directory, exts, mkdir=True,
+                from_context_manager=False):
     '''
     Save the figure in each of the extensions.
 
@@ -134,9 +135,9 @@ def save_figure(filename, directory, exts, mkdir=True, from_context=False):
     mkdir : Optional[bool]
         Whether the directory should be created automatically if it does not
         exist.  Default is True.
-    from_context : Optional[bool]
-        Whether the function is being called from the context manager. This only
-        affects the logging output. Default is False.
+    from_context_manager : Optional[bool]
+        Whether the function is being called from the `figure` context manager.
+        This only affects the logging output. Default is False.
 
     Raises
     ------
@@ -160,7 +161,7 @@ def save_figure(filename, directory, exts, mkdir=True, from_context=False):
     '''
     directory = Path(directory)
 
-    if not from_context:
+    if not from_context_manager:
         logger.info(f'Saving {filename}...  ')
 
     try:
@@ -181,7 +182,7 @@ def save_figure(filename, directory, exts, mkdir=True, from_context=False):
             raise
 
     for ext in exts:
-        if from_context:
+        if from_context_manager:
             logger.info(f'  Saving {ext}...')
         full_filename = f'{filename}.{ext}'
         try:
@@ -251,6 +252,6 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
     logger.info('  Plotting...')
     yield
     plt.gcf().set_size_inches(*size)
-    save_figure(filename, directory=directory, exts=exts, mkdir=mkdir,
-                from_context=True)
+    save_figure(filename=filename, directory=directory, exts=exts, mkdir=mkdir,
+                from_context_manager=True)
     plt.close()
