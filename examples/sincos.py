@@ -8,7 +8,7 @@ import latexipy as lp
 if __name__ == '__main__':
     lp.latexify()
 
-    with lp.figure('fun'):
+    with lp.figure('both_for_latex', directory='examples/img'):
         x = np.linspace(-np.pi, np.pi)
         y1 = np.sin(x)
         y2 = np.cos(x)
