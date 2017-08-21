@@ -20,29 +20,29 @@ class TestFigSize:
 
     def test_defaults(self):
         height = lp.GOLDEN_RATIO * self.width
-        assert lp.fig_size() == (self.width, height)
+        assert lp.figure_size() == (self.width, height)
 
     def test_ratio_no_height(self):
-        assert lp.fig_size(ratio=1) == (self.width, self.width)
-        assert lp.fig_size(ratio=0.5) == (self.width, self.width/2)
+        assert lp.figure_size(ratio=1) == (self.width, self.width)
+        assert lp.figure_size(ratio=0.5) == (self.width, self.width/2)
 
     def test_ratio_height(self):
         dimensions = (self.width, self.width)
-        assert lp.fig_size(ratio=1, height=5) == dimensions
+        assert lp.figure_size(ratio=1, height=5) == dimensions
 
     def test_height_no_ratio(self):
-        assert lp.fig_size(height=5) == (self.width, 5)
+        assert lp.figure_size(height=5) == (self.width, 5)
 
     def test_height_too_high(self):
         with pytest.warns(UserWarning):
             height = lp.MAX_HEIGHT_INCH + 1
-            assert lp.fig_size(height=height) == (self.width,
-                                                  lp.MAX_HEIGHT_INCH)
+            assert lp.figure_size(height=height) == (self.width,
+                                                     lp.MAX_HEIGHT_INCH)
 
     def test_columns(self):
         width = self.width / 2
         height = lp.GOLDEN_RATIO * width
-        assert lp.fig_size(n_columns=2) == (width, height)
+        assert lp.figure_size(n_columns=2) == (width, height)
 
 
 class TestSaveFig:

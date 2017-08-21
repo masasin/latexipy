@@ -66,8 +66,8 @@ def latexify(params=PARAMS):
     plt.switch_backend('pgf')
 
 
-def fig_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
-             max_height=MAX_HEIGHT_INCH, doc_width_pt=345):
+def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
+                max_height=MAX_HEIGHT_INCH, doc_width_pt=345):
     r'''
     Get the necessary figure size.
 
@@ -219,7 +219,8 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
         A list of all the extensions to be saved, without the dot. Default is
         ['pgf', 'png'].
     size : Optional[Sequence[float, float]]
-        The width and height of the figure, in inches. Default is `fig_size()`.
+        The width and height of the figure, in inches. Default is
+        `figure_size()`.
     mkdir : Optional[bool]
         Whether the directory should be created automatically if it does not
         exist.  Default is True.
@@ -245,7 +246,7 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
 
     '''
     if size is None:
-        size = fig_size()
+        size = figure_size()
     logger.info(f'{filename}:')
     logger.info('  Plotting...')
     yield
