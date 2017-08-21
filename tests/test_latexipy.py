@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-'''Tests for `latexipy` package.'''
+'''
+Tests for `latexipy` package.
+
+'''
 from functools import partial
 import math
 from unittest.mock import patch
