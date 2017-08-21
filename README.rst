@@ -12,7 +12,7 @@ LaTeXiPy
         :alt: Test status
 
 .. image:: https://readthedocs.org/projects/latexipy/badge/?version=latest
-        :target: http://latexipy.readthedocs.io/en/latest/?badge=latest
+        :target: https://latexipy.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/masasin/latexipy/shield.svg
