@@ -12,4 +12,5 @@ PyYAML
 pytest
 pytest-cov
 pytest-runner
+codecov
 matplotlib
