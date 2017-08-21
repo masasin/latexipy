@@ -97,6 +97,13 @@ class TestSaveFigure:
             self.f()
             assert mock_savefig.called_once()
 
+    def test_saves_if_from_context_manager(self):
+        with patch('matplotlib.pyplot.tight_layout'), \
+                patch('pathlib.Path.mkdir'), \
+                patch('matplotlib.pyplot.savefig') as mock_savefig:
+            self.f(from_context_manager=True)
+            assert mock_savefig.called_once()
+
 
 class TestFigure:
     def test_default_size_is_figure_size(self):
