@@ -149,6 +149,14 @@ def save_fig(filename, directory, exts, from_context=False, mkdir=True):
     ValueError
         If the format is not supported.
 
+    Notes
+    -----
+    When integrating with LaTeX, the recommended format is PGF. PNG can be used
+    externally, such as in blog posts or as embedded images, while PDF can be
+    standalone, or inserted into LaTeX documents. A full list of supported
+    formats can be found by calling
+    `plt.gcf().canvas.get_supported_filetypes_grouped()`
+
     '''
     directory = Path(directory)
 
@@ -210,6 +218,17 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
     mkdir : Optional[bool]
         Whether the directory should be created automatically if it does not
         exist.  Default is True.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the target directory does not exist and cannot be created.
+    NotADirectoryError
+        If the target directory is actually a file.
+    PermissionError
+        If there is no permission to write to the target directory.
+    ValueError
+        If the format is not supported.
 
     Notes
     -----
