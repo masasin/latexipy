@@ -44,7 +44,7 @@ class TestFigSize:
 
 class TestSaveFig:
     def setup(self):
-        self.f = partial(lp.save_fig, 'foo', 'bar', ['png'])
+        self.f = partial(lp.save_figure, 'foo', 'bar', ['png'])
 
     def test_raises_error_if_directory_does_not_exist(self):
         with patch('matplotlib.pyplot.tight_layout'), \
@@ -77,7 +77,7 @@ class TestSaveFig:
         with patch('matplotlib.pyplot.tight_layout'), \
                 patch('pathlib.Path.mkdir'):
             with pytest.raises(ValueError):
-                lp.save_fig('foo', 'bar', exts=['foo'])
+                lp.save_figure('foo', 'bar', exts=['foo'])
 
 
     def test_warns_if_no_figures(self):

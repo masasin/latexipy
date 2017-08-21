@@ -119,7 +119,7 @@ def fig_size(fig_width_tw=0.9, *, fig_ratio=None, fig_height=None, n_columns=1,
     return fig_width, fig_height
 
 
-def save_fig(filename, directory, exts, from_context=False, mkdir=True):
+def save_figure(filename, directory, exts, from_context=False, mkdir=True):
     '''
     Save the figure in each of the extensions.
 
@@ -250,6 +250,6 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
     logger.info('  Plotting...')
     yield
     plt.gcf().set_size_inches(*size)
-    save_fig(filename, directory=directory, exts=exts, from_context=True,
+    save_figure(filename, directory=directory, exts=exts, from_context=True,
              mkdir=mkdir)
     plt.close()
