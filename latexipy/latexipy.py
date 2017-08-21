@@ -173,7 +173,7 @@ def save_fig(filename, directory, exts, from_context=False, mkdir=True):
             msg = 'A file exists at directory location'
             e = NotADirectoryError(errno.ENOTDIR, msg, str(directory))
             logger.error(f'Directory set to file: {str(directory)}')
-            raise
+            raise e
         directory.mkdir(parents=True, exist_ok=True)
 
     for ext in exts:
