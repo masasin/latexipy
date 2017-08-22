@@ -83,7 +83,9 @@ if __name__ == '__main__':
     # You can change the parameters at any time. To increase the font size:
     font_size = 10
     params = lp.PARAMS.copy()
-    params.update({param: font_size for param in params if 'size' in param})
+    params.update({param: font_size
+                   for param in params
+                   if 'size' in param})
     lp.latexify(params)
 
     with figure('sincos_big_font'):
