@@ -1,5 +1,7 @@
 \documentclass[10pt]{article}
 
+\newcommand\latexipy{\LaTeX iPy}
+\newcommand\latexify{\LaTeX ify}
 
 \usepackage[colorlinks]{hyperref}
 \usepackage[nameinlink]{cleveref}
@@ -7,39 +9,221 @@
   linkcolor={red!50!black},
   citecolor={blue!50!black},
   urlcolor={blue!80!black},
-  pdftitle={\LaTeX iPy Example},
-  pdfsubject={\LaTeX iPy documentation},
+  pdftitle={\latexipy\ Example},
+  pdfsubject={\latexipy\ documentation},
   pdfauthor={Jean Nassar},
 }
 
 \usepackage{minted}
+\setminted[latex]{
+  autogobble=true,
+}
+\setminted[python]{
+  autogobble=true,
+  python3=true,
+}
+\newminted[pycode]{python}{}
+\newmintinline[pyline]{python}{}
+\newmintedfile[pyfile]{python}{}
+
 \usepackage{pgf}
 
-\title{\LaTeX iPy Example}
+\title{\latexipy\ Example}
 \author{Jean Nassar}
 \date{\today}
 
 \begin{document}
 \maketitle
-To generate the plot in \Cref{fig:sincos_defaults}, we can use the code in \Cref{lst:running}.
+\tableofcontents
+\listoflistings
+\listoffigures
 
-\begin{figure}[h]
+\section{Online resources}
+The Github repository is at \url{https://github.com/masasin/latexipy},
+and the full example file is at \href{https://github.com/masasin/latexipy/blob/master/examples/examples.py}{\texttt{examples/examples.py}}.
+Full documentation is available at \url{https://latexipy.readthedocs.io/}.
+
+\section{Assumptions}
+In order to generate plots with \latexipy, install the package and import it.
+
+This document assumes that the following imports are made:
+
+\begin{listing}[H]
+  \begin{pycode*}{highlightlines=3}
+    from functools import partial
+    import matplotlib.pyplot as plt
+    import latexipy as lp
+  \end{pycode*}
+  \caption[List of imports]{The imports used in this example.}
+  \label{lst:imports}
+\end{listing}
+
+Also, it assumes that there is a function, \pyline{plot_sin_and_cos()} which uses a \pyline{matplotlib}-based package to generate a plot without calling \pyline{plt.savefig()} or \pyline{plt.close()}.
+\latexipy\ is known to work well with various libraries, including \pyline{matplotlib}, \pyline{numpy}, \pyline{pandas} and \pyline{seaborn}, among others.
+
+\section{Plotting}
+\subsection{Without \latexify}
+If you don't \latexify, \pyline{matplotlib}'s defaults are used.
+The typeface is sans-serif, and the font a bit larger.
+The code in \Cref{lst:sincos_no_latex} generates \Cref{fig:sincos_no_latex}.
+
+\begin{listing}[H]
+  \begin{pycode*}{highlightlines={1}}
+    with lp.figure('sincos'):
+        plot_sin_and_cos()
+  \end{pycode*}
+  \caption[Figure generation]{Generate figures with one extra line.}
+  \label{lst:sincos_no_latex}
+\end{listing}
+
+\pyline{figure} is a context manager with the following signature:
+
+\begin{listing}[H]
+  \begin{pycode}
+    @contextmanager
+    def figure(filename, *, directory='img', exts=['pgf', 'png'],
+               size=None, mkdir=True):
+  \end{pycode}
+  \caption[\pyline{lp.figure()} signature]{The signature for \pyline{lp.figure()}.}
+  \label{lst:figure}
+\end{listing}
+
+Note that the default for \pyline{directory}, \texttt{./img}, is relative to the calling location, and that \pyline{size} is a tuple with the $x$- and $y$-dimensions in inches.
+
+\begin{figure}[H]
+  \centering
+  \input{img/sincos_no_latex.pgf}
+  \caption[Default plot]{The plot, with default parameters before \latexify ing.}
+  \label{fig:sincos_no_latex}
+\end{figure}
+
+\subsection{With \latexify}
+\Cref{fig:sincos_defaults} shows a plot using the default \latexipy\ configuration, with the same typeface as the body, but a size of 8\,pt. To generate it, we can use the code in \Cref{lst:sincos_defaults}.
+
+\begin{listing}[H]
+  \begin{pycode*}{highlightlines={1}}
+    lp.latexify()
+
+    with lp.figure('sincos'):
+        plot_sin_and_cos()
+  \end{pycode*}
+  \caption[Example of \latexify]{\pyline{lp.latexify()} generates plots that fit well with \LaTeX.}
+  \label{lst:sincos_defaults}
+\end{listing}
+
+\begin{figure}[H]
   \centering
   \input{img/sincos_defaults.pgf}
-  \caption{The plot, with default parameters.}
+  \caption[Default \LaTeX\ plot]{The plot, with default parameters after \latexify ing.}
   \label{fig:sincos_defaults}
 \end{figure}
 
-\begin{figure}[h]
+\subsection{Custom parameters}
+\pyline{lp.latexify()} uses \pyline{lp.PARAMS} by default.
+Its values are shown in \Cref{lst:default_params}.
+
+\begin{listing}[H]
+  \pyfile[firstline=22, lastline=41]{../latexipy/_latexipy.py}
+  \caption[Default \latexify\ settings]{The default parameters changed by \latexify.}
+  \label{lst:default_params}
+\end{listing}
+
+To change some parameters, such as the font size, all you need to do is pass a different dictionary to \pyline{lp.latexify()}.
+This can be done at any time.
+\Cref{lst:new_params} shows an example of increasing the font size.
+
+\begin{listing}[H]
+  \pyfile[firstline=84, lastline=89, highlightlines={85, 86, 89}]{examples.py}
+  \caption[Using custom \latexify\ settings]{Increasing the font size is as simple as changing the default values.}
+  \label{lst:new_params}
+\end{listing}
+
+After the parameters have been updated, running \Cref{lst:sincos_no_latex} again gives \Cref{fig:sincos_big_font}, with a 10\,pt font.
+
+\begin{figure}[H]
   \centering
   \input{img/sincos_big_font.pgf}
-  \caption{The plot, with the font size increased.}
+  \caption[Custom \LaTeX\ plot]{The plot, with the font size increased.}
   \label{fig:sincos_big_font}
 \end{figure}
 
-\begin{listing}[ht]
-  \inputminted[firstline=7, lastline=10]{python}{example.py}
-  \caption{Add one line to generate figures.}
-  \label{lst:running}
+\section{Programming tips}
+If you keep passing the same arguments to \pyline{lp.figure()} (for example, an output directory, a set of filetypes, or a certain size), you can save it for reuse by using the \pyline{partial} function from the \pyline{functools} module, as shown in \Cref{lst:partial}.
+After that, you can use it just like \pyline{lp.figure()}.
+Note that you would not be able to redifine an argument that you had previously applied.
+
+Here, \pyline{DIRECTORY} refers to any output directory, either as a string, or as a \pyline{pathlib.Path} object.
+
+\begin{listing}[H]
+  \begin{pycode*}{highlightlines=1}
+    figure = partial(lp.figure, directory=DIRECTORY)
+
+    with figure('sincos_partial'):
+        plot_sin_and_cos()
+  \end{pycode*}
+  \caption[Using partial function application]{The \pyline{sincos_partial} plots will be stored in \pyline{DIRECTORY}.}
+  \label{lst:partial}
 \end{listing}
+
+\section{Using in \LaTeX}
+To include a PGF file in your \LaTeX document, make sure that the \mintinline{latex}{pgf} package is loaded in the preamble:
+
+\mint{latex}|\usepackage{pgf}|
+
+After that, you can include it in the correct location with:
+
+\mint{latex}|\input{<filename>.pgf}|
+
+\Cref{lst:latex} shows a minimum working example of adding an image within a figure.
+
+\begin{listing}[H]
+  \begin{minted}[highlightlines={3, 8}]{latex}
+    \documentclass{article}
+
+    \usepackage{pgf}
+
+    \begin{document}
+      \begin{figure}[h]
+        \centering
+        \input{img/filename.pgf}
+        \caption[LOF caption]{Regular caption.}
+        \label{fig:pgf_example}
+      \end{figure}
+    \end{document}
+  \end{minted}
+  \caption[\LaTeX\ Minimum Working Example]{A minimum working example of using PGF with \LaTeX.}
+  \label{lst:latex}
+\end{listing}
+
+Note that figures using additional raster images can only be included by \mintinline{latex}{\input} if they are in the same directory as the main \LaTeX file.
+To load figures from other directories, you can use the \mintinline{latex}{\import} package instead.
+
+\begin{minted}{latex}
+  \usepackage{import}
+  \import{<path to file>}{<filename>.pgf}
+\end{minted}
+
+An example is given in \Cref{lst:import}.
+
+\begin{listing}[H]
+  \begin{minted}[highlightlines={3, 4, 9}]{latex}
+    \documentclass{article}
+
+    \usepackage{import}
+    \usepackage{pgf}
+
+    \begin{document}
+      \begin{figure}[h]
+        \centering
+        \import{/path/to/file/}{filename.pgf}  % Note trailing slash.
+        \caption[LOF caption]{Regular caption.}
+        \label{fig:pgf_example}
+      \end{figure}
+    \end{document}
+  \end{minted}
+  \caption[Importing PGF with raster]{Importing a raster-using PGF from a different directory requires the \mintinline{latex}{\import} package.}
+  \label{lst:import}
+\end{listing}
+
+
 \end{document}
