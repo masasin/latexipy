@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from functools import partial
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -7,6 +8,8 @@ import numpy as np
 
 import latexipy as lp
 
+
+logging.basicConfig(level=logging.INFO)
 
 DIRECTORY = Path(__file__).parent/'img'
 
