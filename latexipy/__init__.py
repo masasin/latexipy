@@ -2,7 +2,7 @@
 Top-level package for LaTeXiPy.
 
 '''
-from latexipy.latexipy import (
+from ._latexipy import (
     latexify,
     figure_size,
     save_figure,

@@ -121,7 +121,7 @@ class TestFigure:
         default_size = lp.figure_size()
 
         with patch('matplotlib.figure.Figure.set_size_inches') as mock_set, \
-                patch('latexipy.latexipy.save_figure'):
+                patch('latexipy._latexipy.save_figure'):
             with lp.figure('filename'):
                 pass
 
@@ -130,7 +130,7 @@ class TestFigure:
     def test_figure_size_is_kwarg_size(self):
         size = (6, 6)
         with patch('matplotlib.figure.Figure.set_size_inches') as mock_set, \
-                patch('latexipy.latexipy.save_figure'):
+                patch('latexipy._latexipy.save_figure'):
             with lp.figure('filename', size=size):
                 pass
 
@@ -140,7 +140,7 @@ class TestFigure:
         params = inspect.signature(lp.figure).parameters
 
         with patch('matplotlib.figure.Figure.set_size_inches'), \
-                patch('latexipy.latexipy.save_figure') as mock_save_figure:
+                patch('latexipy._latexipy.save_figure') as mock_save_figure:
             with lp.figure('filename'):
                 pass
 
@@ -156,7 +156,7 @@ class TestFigure:
         params = inspect.signature(lp.figure).parameters
 
         with patch('matplotlib.figure.Figure.set_size_inches'), \
-                patch('latexipy.latexipy.save_figure') as mock_save_figure:
+                patch('latexipy._latexipy.save_figure') as mock_save_figure:
             with lp.figure('filename', directory='directory', exts='exts',
                            mkdir='mkdir'):
                 pass
