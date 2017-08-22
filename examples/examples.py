@@ -76,7 +76,7 @@ if __name__ == '__main__':
         plot_sin_and_cos()
 
     # And we can have a high figure if, for instance, stacking subplots.
-    with figure('sincos_tall', size=lp.figure_size(ratio=2)):
+    with figure('sincos_tall', size=lp.figure_size(0.6, ratio=2)):
         plot_sin_and_cos()
 
     # It is equivalent to the original function with the right arguments.
