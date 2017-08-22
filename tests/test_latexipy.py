@@ -14,23 +14,25 @@ import matplotlib.pyplot
 import pytest
 
 import latexipy as lp
+from latexipy._latexipy import INCH_PER_POINT, GOLDEN_RATIO, MAX_HEIGHT_INCH
 
 
 def test_latexify():
     with patch('matplotlib.rcParams.update') as mock_update, \
             patch('matplotlib.pyplot.switch_backend') as mock_switch:
-        lp.latexify(lp.PARAMS)
+        params = {'param_a': 1, 'param_b': 2}
+        lp.latexify(params)
 
-        mock_update.assert_called_once_with(lp.PARAMS)
+        mock_update.assert_called_once_with(params)
         mock_switch.assert_called_once_with('pgf')
 
 
 class TestFigureSize:
     def setup(self):
-        self.width = 345 * 0.9 * lp.INCH_PER_POINT
+        self.width = 345 * 0.9 * INCH_PER_POINT
 
     def test_defaults(self):
-        height = lp.GOLDEN_RATIO * self.width
+        height = GOLDEN_RATIO * self.width
         assert lp.figure_size() == (self.width, height)
 
     def test_ratio_no_height(self):
@@ -46,13 +48,13 @@ class TestFigureSize:
 
     def test_height_too_high(self):
         with pytest.warns(UserWarning):
-            height = lp.MAX_HEIGHT_INCH + 1
+            height = MAX_HEIGHT_INCH + 1
             assert lp.figure_size(height=height) == (self.width,
-                                                     lp.MAX_HEIGHT_INCH)
+                                                     MAX_HEIGHT_INCH)
 
     def test_columns(self):
         width = self.width / 2
-        height = lp.GOLDEN_RATIO * width
+        height = GOLDEN_RATIO * width
         assert lp.figure_size(n_columns=2) == (width, height)
 
 
