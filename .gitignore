@@ -69,3 +69,6 @@ _minted-*
 *.aux
 *.out
 *.pdf
+*.lof
+*.lol
+*.toc
