@@ -63,3 +63,9 @@ target/
 
 # vim
 *.swp
+
+# LaTeX
+_minted-*
+*.aux
+*.out
+*.pdf
