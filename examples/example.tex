@@ -1,0 +1,45 @@
+\documentclass[10pt]{article}
+
+
+\usepackage[colorlinks]{hyperref}
+\usepackage[nameinlink]{cleveref}
+\hypersetup{
+  linkcolor={red!50!black},
+  citecolor={blue!50!black},
+  urlcolor={blue!80!black},
+  pdftitle={\LaTeX iPy Example},
+  pdfsubject={\LaTeX iPy documentation},
+  pdfauthor={Jean Nassar},
+}
+
+\usepackage{minted}
+\usepackage{pgf}
+
+\title{\LaTeX iPy Example}
+\author{Jean Nassar}
+\date{\today}
+
+\begin{document}
+\maketitle
+To generate the plot in \Cref{fig:sincos_defaults}, we can use the code in \Cref{lst:running}.
+
+\begin{figure}[h]
+  \centering
+  \input{img/sincos_defaults.pgf}
+  \caption{The plot, with default parameters.}
+  \label{fig:sincos_defaults}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \input{img/sincos_big_font.pgf}
+  \caption{The plot, with the font size increased.}
+  \label{fig:sincos_big_font}
+\end{figure}
+
+\begin{listing}[ht]
+  \inputminted[firstline=7, lastline=10]{python}{example.py}
+  \caption{Add one line to generate figures.}
+  \label{lst:running}
+\end{listing}
+\end{document}
