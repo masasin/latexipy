@@ -64,12 +64,15 @@ if __name__ == '__main__':
     with figure('sincos_defaults'):
         plot_sin_and_cos()
 
+    # You can change the size. 0.45\textwidth is useful when using two columns.
     with figure('sincos_small', size=lp.figure_size(0.45)):
         plot_sin_and_cos()
 
+    # A ratio of 1 is great for squares.
     with figure('sincos_square', size=lp.figure_size(ratio=1)):
         plot_sin_and_cos()
 
+    # And we can have a high figure if, for instance, stacking subplots.
     with figure('sincos_tall', size=lp.figure_size(ratio=2)):
         plot_sin_and_cos()
 
