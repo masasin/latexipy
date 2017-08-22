@@ -22,7 +22,7 @@ MAX_HEIGHT_INCH = 8
 FONT_SIZE = 8
 
 PARAMS = {
-    'pgf.texsystem': 'xelatex',  # change this if using xetex or luatex
+    'pgf.texsystem': 'xelatex',  # pdflatex, xelatex, lualatex
     'text.usetex': True,
     'font.family': 'serif',
     'font.serif': [],
