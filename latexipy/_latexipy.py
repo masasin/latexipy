@@ -40,6 +40,9 @@ PARAMS = {
     'ytick.labelsize': FONT_SIZE,
 }
 
+_ORIGINAL_PARAMS = dict(plt.rcParams)
+_ORIGINAL_BACKEND = plt.get_backend()
+
 
 def latexify(params=PARAMS, new_backend='pgf'):
     '''
@@ -77,6 +80,15 @@ def latexify(params=PARAMS, new_backend='pgf'):
         except ValueError:
             logger.error(f'Backend not supported: {new_backend!r}')
             raise
+
+
+def revert():
+    '''
+    Return to the settings before running `latexify()` and updating RC params.
+
+    '''
+    plt.rcParams.update(_ORIGINAL_PARAMS)
+    plt.switch_backend(_ORIGINAL_BACKEND)
 
 
 def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
