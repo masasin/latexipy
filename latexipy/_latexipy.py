@@ -91,6 +91,61 @@ def revert():
     plt.switch_backend(_ORIGINAL_BACKEND)
 
 
+@contextmanager
+def temp_params(font_size=None, font_family=None, font_serif=None,
+                font_sans_serif=None, font_monospace=None, params_dict=None):
+    '''
+    Temporarily set matplotlib's RC params.
+
+    Parameters
+    ----------
+    font_size : Optional[int]
+        The font size to use. It changes all the components that are normally
+        updated with `latexify()`. If you want to change something
+        individually, do so from within `params_dict`.
+    font_family : Optional[str]
+        The font family to use.
+    font_serif : Optional[List[str]]
+        A list of serif fonts to use.
+    font_sans_serif : Optional[List[str]]
+        A list of sans-serif fonts to use.
+    font_monospace : Optional[List[str]]
+        A list of monospace fonts to use.
+    params_dict : Optional[Dict[str, Any]]
+        The dictionary of parameters to update, and the updated values. This is
+        only applied after going through the rest of the arguments.
+
+    '''
+    old_params = plt.rcParams
+    new_params = old_params.copy()
+
+    mapping = {
+        'font.size': font_size,
+        'axes.labelsize': font_size,
+        'axes.titlesize': font_size,
+        'legend.fontsize': font_size,
+        'xtick.labelsize': font_size,
+        'ytick.labelsize': font_size,
+        'font.family': font_family,
+        'font.serif': font_serif,
+        'font.sans-serif': font_sans_serif,
+        'font.monospace': font_monospace,
+    }
+
+    new_params.update({k: v
+                       for k, v in mapping.items()
+                       if v is not None})
+
+    if params_dict is not None:
+        new_params.update(params_dict)
+
+    plt.rcParams.update(new_params)
+    try:
+        yield
+    finally:
+        plt.rcParams.update(old_params)
+
+
 def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
                 max_height=MAX_HEIGHT_INCH, doc_width_pt=345):
     r'''

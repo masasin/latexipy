@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 import matplotlib as mpl
 mpl.use('Agg')
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 import pytest
 
 import latexipy as lp
@@ -60,6 +60,52 @@ def test_revert():
         mock_switch.assert_called_with(plt.get_backend())
 
 
+class TestTempParams:
+    def test_defaults(self):
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            old_params = dict(plt.rcParams)
+            with lp.temp_params():
+                mock_update.assert_called_with(old_params)
+            mock_update.assert_called_with(old_params)
+
+    def test_font_size(self):
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            old_params = dict(plt.rcParams)
+            with lp.temp_params(font_size=10):
+                called_with = mock_update.call_args[0][0]
+                print(called_with)
+                assert all(called_with[k] == 10
+                           for k in lp.PARAMS if 'size' in k)
+            mock_update.assert_called_with(old_params)
+
+    def test_params_dict(self):
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            old_params = dict(plt.rcParams)
+            with lp.temp_params(params_dict={'font.family': 'sans-serif'}):
+                called_with = mock_update.call_args[0][0]
+                assert called_with['font.family'] == 'sans-serif'
+            mock_update.assert_called_with(old_params)
+
+    def test_params_dict_after_font_size(self):
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            old_params = dict(plt.rcParams)
+            with lp.temp_params(font_size=10, params_dict={
+                    'axes.labelsize': 12,
+                    'legend.fontsize': 12,
+                    }):
+                called_with = mock_update.call_args[0][0]
+                assert called_with['font.size'] == 10
+                assert called_with['axes.labelsize'] == 12
+                assert called_with['axes.titlesize'] == 10
+                assert called_with['legend.fontsize'] == 12
+                assert called_with['xtick.labelsize'] == 10
+                assert called_with['ytick.labelsize'] == 10
+
+            mock_update.assert_called_with(old_params)
 
 
 class TestFigureSize:
