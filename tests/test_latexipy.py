@@ -17,14 +17,49 @@ import latexipy as lp
 from latexipy._latexipy import INCH_PER_POINT, GOLDEN_RATIO, MAX_HEIGHT_INCH
 
 
-def test_latexify():
+class TestLatexify:
+    def test_defaults(self):
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            lp.latexify()
+
+            mock_update.assert_called_once_with(lp.PARAMS)
+            mock_switch.assert_called_once_with('pgf')
+
+    def test_custom_params(self):
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            params = {'param_a': 1, 'param_b': 2}
+            lp.latexify(params)
+
+            mock_update.assert_called_once_with(params)
+            mock_switch.assert_called_once_with('pgf')
+
+    def test_custom_backend(self):
+        with patch('matplotlib.rcParams.update') as mock_update, \
+                patch('matplotlib.pyplot.switch_backend') as mock_switch:
+            lp.latexify(new_backend='QtAgg')
+
+            mock_update.assert_called_once_with(lp.PARAMS)
+            mock_switch.assert_called_once_with('QtAgg')
+
+    def test_raises_error_on_bad_backend(self):
+        with patch('matplotlib.rcParams.update') as mock_update:
+            with pytest.raises(ValueError):
+                lp.latexify(new_backend='foo')
+
+            mock_update.assert_called_once_with(lp.PARAMS)
+
+
+def test_revert():
     with patch('matplotlib.rcParams.update') as mock_update, \
             patch('matplotlib.pyplot.switch_backend') as mock_switch:
-        params = {'param_a': 1, 'param_b': 2}
-        lp.latexify(params)
+        lp.latexify()
+        lp.revert()
+        mock_update.assert_called_with(dict(plt.rcParams))
+        mock_switch.assert_called_with(plt.get_backend())
 
-        mock_update.assert_called_once_with(params)
-        mock_switch.assert_called_once_with('pgf')
+
 
 
 class TestFigureSize:
