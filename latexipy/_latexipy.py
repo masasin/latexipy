@@ -41,7 +41,7 @@ PARAMS = {
 }
 
 
-def latexify(params=PARAMS):
+def latexify(params=PARAMS, new_backend='pgf'):
     '''
     Set up matplotlib's RC params for LaTeX plotting.
 
@@ -54,6 +54,15 @@ def latexify(params=PARAMS):
         is `PARAMS`. The defaults should be okay for most cases, but `PARAMS`
         can be updated via `.update()` as well.
 
+    new_backend : Optional[str|None]
+        The backend to switch too. Default is PGF, which allows a nicer PDF
+        output too.
+
+    Raises
+    ------
+    ValueError
+        If the new backend is not supported.
+
     Example
     -------
     >>> params = PARAMS.copy()
@@ -62,7 +71,12 @@ def latexify(params=PARAMS):
 
     '''
     plt.rcParams.update(params)
-    plt.switch_backend('pgf')
+    if new_backend is not None:
+        try:
+            plt.switch_backend(new_backend)
+        except ValueError:
+            logger.error(f'Backend not supported: {new_backend!r}')
+            raise
 
 
 def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
