@@ -25,7 +25,7 @@ test_requirements = [
 
 setup(
     name='latexipy',
-    version='1.0.0',
+    version='1.0.1',
     description="Generate beautiful plots for LaTeX using your existing matplotlib-based code.",
     long_description=readme + '\n\n' + history,
     author="Jean Nassar",
