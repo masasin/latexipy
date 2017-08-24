@@ -84,7 +84,7 @@ def latexify(params=PARAMS, new_backend='pgf'):
 
 def revert():
     '''
-    Return to the settings before running ``latexify()`` and updating RC params.
+    Return to the settings before running ``latexify()`` and updating params.
 
     '''
     plt.rcParams.update(_ORIGINAL_PARAMS)
