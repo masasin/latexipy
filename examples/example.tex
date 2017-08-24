@@ -61,6 +61,9 @@ This document assumes that the following imports are made:
 Also, it assumes that there is a function, \pyline{plot_sin_and_cos()} which uses a \pyline{matplotlib}-based package to generate a plot without calling \pyline{plt.savefig()} or \pyline{plt.close()}.
 \latexipy\ is known to work well with various libraries, including \pyline{matplotlib}, \pyline{numpy}, \pyline{pandas} and \pyline{seaborn}, among others.
 
+Finally, \pyline{figure()} in the listings (without \pyline{lp.}) is the partially applied version of the \pyline{lp.figure()} function to save it in the right directory.
+See \Cref{sec:partial} for more details.
+
 \section{Plotting}
 \subsection{Without \latexify}
 If you don't \latexify, \pyline{matplotlib}'s defaults are used.
@@ -69,12 +72,19 @@ The code in \Cref{lst:sincos_no_latex} generates \Cref{fig:sincos_no_latex}.
 
 \begin{listing}[H]
   \begin{pycode*}{highlightlines={1}}
-    with lp.figure('sincos'):
+    with figure('sincos'):
         plot_sin_and_cos()
   \end{pycode*}
   \caption[Figure generation]{Generate figures with one extra line.}
   \label{lst:sincos_no_latex}
 \end{listing}
+
+\begin{figure}[H]
+  \centering
+  \input{img/sincos_no_latex.pgf}
+  \caption[Default plot]{The plot, with default parameters before \latexify ing.}
+  \label{fig:sincos_no_latex}
+\end{figure}
 
 \pyline{figure} is a context manager with the following signature:
 
@@ -90,13 +100,6 @@ The code in \Cref{lst:sincos_no_latex} generates \Cref{fig:sincos_no_latex}.
 
 Note that the default for \pyline{directory}, \texttt{./img}, is relative to the calling location, and that \pyline{size} is a tuple with the $x$- and $y$-dimensions in inches.
 
-\begin{figure}[H]
-  \centering
-  \input{img/sincos_no_latex.pgf}
-  \caption[Default plot]{The plot, with default parameters before \latexify ing.}
-  \label{fig:sincos_no_latex}
-\end{figure}
-
 \subsection{With \latexify}
 \Cref{fig:sincos_defaults} shows a plot using the default \latexipy\ configuration, with the same typeface as the body, but a size of 8\,pt. To generate it, we can use the code in \Cref{lst:sincos_defaults}.
 
@@ -104,7 +107,7 @@ Note that the default for \pyline{directory}, \texttt{./img}, is relative to the
   \begin{pycode*}{highlightlines={1}}
     lp.latexify()
 
-    with lp.figure('sincos'):
+    with figure('sincos'):
         plot_sin_and_cos()
   \end{pycode*}
   \caption[Example of \latexify]{\pyline{lp.latexify()} generates plots that fit well with \LaTeX.}
@@ -128,34 +131,46 @@ Its values are shown in \Cref{lst:default_params}.
   \label{lst:default_params}
 \end{listing}
 
-To change some parameters, such as the font size, all you need to do is pass a different dictionary to \pyline{lp.latexify()}.
-This can be done at any time.
-\Cref{lst:new_params} shows an example of increasing the font size.
+To change some parameters temporarily, such as the font size, you can use the \pyline{lp.temp_params} context manager. To keep the settings applied, simply pass a different dictionary to \pyline{lp.latexify()}.
+Either can be done at any time.
+\Cref{lst:new_params_temp} shows an example of increasing the font size temporarily.
+\Cref{lst:new_params_permanent} shows an example of increasing the font size permanently.
 
 \begin{listing}[H]
-  \pyfile[firstline=84, lastline=89, highlightlines={85, 86, 89}]{examples.py}
-  \caption[Using custom \latexify\ settings]{Increasing the font size is as simple as changing the default values.}
-  \label{lst:new_params}
+  \pyfile[firstline=87, lastline=90, highlightlines={88}]{examples.py}
+  \caption[Using custom \latexify\ settings]{Increasing the font size is as simple as setting it once.}
+  \label{lst:new_params_temp}
 \end{listing}
 
-After the parameters have been updated, running \Cref{lst:sincos_no_latex} again gives \Cref{fig:sincos_big_font}, with a 10\,pt font.
+\begin{listing}[H]
+  \pyfile[firstline=93, lastline=101, highlightlines={94, 95, 98}]{examples.py}
+  \caption[Permanently changing \latexify\ settings]{Pass a dictionary to \pyline{lp.latexify()} to permanently change a setting.}
+  \label{lst:new_params_permanent}
+\end{listing}
+
+Either way, rerunning \Cref{lst:sincos_no_latex} after updating the parameters gives \Cref{fig:sincos_big_font_temp}, with a 10\,pt font.
 
 \begin{figure}[H]
   \centering
-  \input{img/sincos_big_font.pgf}
+  \input{img/sincos_big_font_temp.pgf}
   \caption[Custom \LaTeX\ plot]{The plot, with the font size increased.}
-  \label{fig:sincos_big_font}
+  \label{fig:sincos_big_font_temp}
 \end{figure}
 
+\subsection{Reverting the settings}
+
+To revert the settings, just run \pyline{lp.revert()}.
+
 \section{Programming tips}
+\label{sec:partial}
 If you keep passing the same arguments to \pyline{lp.figure()} (for example, an output directory, a set of filetypes, or a certain size), you can save it for reuse by using the \pyline{partial} function from the \pyline{functools} module, as shown in \Cref{lst:partial}.
 After that, you can use it just like \pyline{lp.figure()}.
 Note that you would not be able to redifine an argument that you had previously applied.
 
-Here, \pyline{DIRECTORY} refers to any output directory, either as a string, or as a \pyline{pathlib.Path} object.
+Here, \pyline{DIRECTORY} refers to any output directory, either as a string, or as a \pyline{pathlib.Path()} object.
 
 \begin{listing}[H]
-  \begin{pycode*}{highlightlines=1}
+  \begin{pycode*}{highlightlines={1, 3}}
     figure = partial(lp.figure, directory=DIRECTORY)
 
     with figure('sincos_partial'):

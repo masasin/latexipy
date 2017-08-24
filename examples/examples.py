@@ -83,7 +83,13 @@ if __name__ == '__main__':
     with lp.figure('sincos_defaults_no_partial', directory=DIRECTORY):
         plot_sin_and_cos()
 
-    # You can change the parameters at any time. To increase the font size:
+    # You can temporarily change parameters. To increase font size:
+    font_size = 10
+    with lp.temp_params(font_size=font_size):
+        with figure('sincos_big_font_temp'):
+            plot_sin_and_cos()
+
+    # You can permanently change them too.
     font_size = 10
     params = lp.PARAMS.copy()
     params.update({param: font_size
@@ -91,5 +97,10 @@ if __name__ == '__main__':
                    if 'size' in param})
     lp.latexify(params)
 
-    with figure('sincos_big_font'):
+    with figure('sincos_big_font_permanent'):
+        plot_sin_and_cos()
+
+    # Or revert at any time.
+    lp.revert()
+    with figure('sincos_after_revert'):
         plot_sin_and_cos()
