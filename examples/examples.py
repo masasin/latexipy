@@ -104,3 +104,13 @@ if __name__ == '__main__':
     lp.revert()
     with figure('sincos_after_revert'):
         plot_sin_and_cos()
+
+    lp.latexify()
+
+    # Extra-big label and legend.
+    with lp.temp_params(font_size=10, params_dict={
+        'axes.labelsize': 12,
+        'axes.titlesize': 12,
+        }):
+        with lp.figure('sincos_big_label_title'):
+            plot_sin_and_cos()

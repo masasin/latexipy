@@ -24,18 +24,49 @@ LaTeXiPy
         :alt: MIT License
 
 
-Generate beautiful plots for LaTeX using your existing matplotlib-based code.
+Generate beautiful plots for LaTeX using your existing Matplotlib-based code.
 
-You can also use this package to generate plots without using LaTeX. Just don't run `latexify()`.
+You can also use this package to generate plots without using LaTeX. Just don't run ``lp.latexify()``.
 
 * Free software: MIT license
 * Documentation: https://latexipy.readthedocs.io.
 
 
+Usage
+-----
+
+.. code-block:: python
+    :caption: myfile.py
+
+    import latexipy as lp
+
+    lp.latexify()  # Change to a serif font that fits with most LaTeX.
+
+    with lp.figure('filename'):  # saves in img/ by default.
+        draw_the_plot()
+
+.. image:: https://github.com/masasin/latexipy/raw/master/examples/img/sincos_defaults.png
+
+.. code-block:: latex
+    :caption: mydoc.tex
+
+    \usepackage{pgf}
+    \input{filename.pgf}
+
+
+See the examples_ directory for some example code, their resulting images, as well as an example LaTeX file and its output PDF_.
+
+.. _examples: https://github.com/masasin/latexipy/tree/master/examples
+.. _PDF: https://github.com/masasin/latexipy/raw/master/examples/example.pdf
+
+
 Features
 --------
 
-* TODO
+* Automatically generate multiple plot types, such as PDF, PNG, and PGF for LaTeX.
+* Works with all Matplotlib-based packages, including Seaborn and Pandas.
+* Allows for easily changing the style temporarily.
+
 
 Credits
 ---------

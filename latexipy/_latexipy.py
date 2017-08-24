@@ -1,5 +1,5 @@
 '''
-Automatically change matplotlib figures to LaTeX figures.
+Automatically change Matplotlib figures to LaTeX figures.
 
 '''
 from contextlib import contextmanager
@@ -16,7 +16,7 @@ logger = logging.getLogger('latexipy')
 
 
 INCH_PER_POINT = 1/72.27
-GOLDEN_RATIO = (math.sqrt(5)-1.0)/2.0
+GOLDEN_RATIO = (math.sqrt(5) - 1) / 2
 
 MAX_HEIGHT_INCH = 8
 FONT_SIZE = 8
@@ -46,7 +46,7 @@ _ORIGINAL_BACKEND = plt.get_backend()
 
 def latexify(params=PARAMS, new_backend='pgf'):
     '''
-    Set up matplotlib's RC params for LaTeX plotting.
+    Set up Matplotlib's RC params for LaTeX plotting.
 
     Call this function before plotting the first figure.
 
@@ -54,8 +54,8 @@ def latexify(params=PARAMS, new_backend='pgf'):
     ----------
     params : Optional[dict]
         A dictionary containing the RC params that need to be updated. Default
-        is `PARAMS`. The defaults should be okay for most cases, but `PARAMS`
-        can be updated via `.update()` as well.
+        is ``PARAMS``. The defaults should be okay for most cases, but
+        ``PARAMS`` can be updated via ``.update()`` as well.
 
     new_backend : Optional[str|None]
         The backend to switch too. Default is PGF, which allows a nicer PDF
@@ -84,7 +84,7 @@ def latexify(params=PARAMS, new_backend='pgf'):
 
 def revert():
     '''
-    Return to the settings before running `latexify()` and updating RC params.
+    Return to the settings before running ``latexify()`` and updating RC params.
 
     '''
     plt.rcParams.update(_ORIGINAL_PARAMS)
@@ -95,14 +95,14 @@ def revert():
 def temp_params(font_size=None, font_family=None, font_serif=None,
                 font_sans_serif=None, font_monospace=None, params_dict=None):
     '''
-    Temporarily set matplotlib's RC params.
+    Temporarily set Matplotlib's RC params.
 
     Parameters
     ----------
     font_size : Optional[int]
         The font size to use. It changes all the components that are normally
-        updated with `latexify()`. If you want to change something
-        individually, do so from within `params_dict`.
+        updated with ``latexify()``. If you want to change something
+        individually, do so from within ``params_dict``.
     font_family : Optional[str]
         The font family to use.
     font_serif : Optional[List[str]]
@@ -157,21 +157,21 @@ def figure_size(width_tw=0.9, *, ratio=None, height=None, n_columns=1,
         The width of the figure, as a proportion of the text width, between 0
         and 1. Default is 0.9.
     ratio: Optional[float]
-        The ratio of the figure height to figure width. If `height` is
-        specified, `ratio` is calculated from that and `width`. Default is the
-        golden ratio.
+        The ratio of the figure height to figure width. If ``height`` is
+        specified, ``ratio`` is calculated from that and ``width``. Default is
+        the golden ratio.
     height : Optional[float]
-        The height of the figure in inches. If `ratio` is specified, `height`
-        is ignored. Default is the golden ratio of the width.
+        The height of the figure in inches. If ``ratio`` is specified,
+        ``height`` is ignored. Default is the golden ratio of the width.
     n_columns : Optional[int]
         The number of equally sized columns in the document. The figure will
         never be larger than the width of one column.  Default is 1.
     max_height : Optional[float]
         The maximum height of the figure, in inches. Default is
-        `MAX_HEIGHT_INCH`.
+        ``MAX_HEIGHT_INCH``.
     doc_width_pt : float
         The text width of the document, in points. It can be obtained by typing
-        `\the\textwidth` in the LaTeX document. Default is 345.
+        ``\the\textwidth`` in the LaTeX document. Default is 345.
 
     Returns
     -------
@@ -216,8 +216,8 @@ def save_figure(filename, directory, exts, mkdir=True,
         Whether the directory should be created automatically if it does not
         exist.  Default is True.
     from_context_manager : Optional[bool]
-        Whether the function is being called from the `figure` context manager.
-        This only affects the logging output. Default is False.
+        Whether the function is being called from the ``figure`` context
+        manager.  This only affects the logging output. Default is False.
 
     Raises
     ------
@@ -236,7 +236,7 @@ def save_figure(filename, directory, exts, mkdir=True,
     externally, such as in blog posts or as embedded images, while PDF can be
     standalone, or inserted into LaTeX documents. A full list of supported
     formats can be found by calling
-    `plt.gcf().canvas.get_supported_filetypes_grouped()`
+    ``plt.gcf().canvas.get_supported_filetypes_grouped()``
 
     '''
     directory = Path(directory)
@@ -287,7 +287,7 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
     '''
     The primary interface for creating figures.
 
-    Any matplotlib-derived code in the scope of this context manager is valid,
+    Any Matplotlib-derived code in the scope of this context manager is valid,
     and should output as expected.
 
     Parameters
@@ -302,7 +302,7 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
         ['pgf', 'png'].
     size : Optional[Sequence[float, float]]
         The width and height of the figure, in inches. Default is
-        `figure_size()`.
+        ``figure_size()``.
     mkdir : Optional[bool]
         Whether the directory should be created automatically if it does not
         exist.  Default is True.
@@ -324,7 +324,7 @@ def figure(filename, *, directory='img', exts=['pgf', 'png'], size=None,
     externally, such as in blog posts or as embedded images, while PDF can be
     standalone, or inserted into LaTeX documents. A full list of supported
     formats can be found by calling
-    `plt.gcf().canvas.get_supported_filetypes_grouped()`
+    ``plt.gcf().canvas.get_supported_filetypes_grouped()``
 
     '''
     if size is None:

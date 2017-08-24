@@ -1,5 +1,21 @@
 '''
-Top-level package for LaTeXiPy.
+LaTeXiPy
+========
+
+Provides
+  1. An easy way of generating plots in multiple formats.
+  2. Sensible defaults that fit perfectly with most LaTeX documents.
+  3. Compatibility with Matplotlib-based packages.
+  4. Easy restyling.
+
+This documentation assumes that ``latexipy`` has been imported as ``lp``::
+
+  >>> import latexipy as lp
+
+You will probably use ``lp.figure()`` the most (once for each block)::
+
+  >>> with lp.figure('filename'):
+  ...     draw_the_plot()
 
 '''
 from ._latexipy import (

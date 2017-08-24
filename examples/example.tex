@@ -58,15 +58,15 @@ This document assumes that the following imports are made:
   \label{lst:imports}
 \end{listing}
 
-Also, it assumes that there is a function, \pyline{plot_sin_and_cos()} which uses a \pyline{matplotlib}-based package to generate a plot without calling \pyline{plt.savefig()} or \pyline{plt.close()}.
-\latexipy\ is known to work well with various libraries, including \pyline{matplotlib}, \pyline{numpy}, \pyline{pandas} and \pyline{seaborn}, among others.
+Also, it assumes that there is a function, \pyline{plot_sin_and_cos()} which uses a Matplotlib-based package to generate a plot without calling \pyline{plt.savefig()} or \pyline{plt.close()}.
+\latexipy\ is known to work well with various libraries, including Matplotlib, Numpy, Pandas and Seaborn, among others.
 
 Finally, \pyline{figure()} in the listings (without \pyline{lp.}) is the partially applied version of the \pyline{lp.figure()} function to save it in the right directory.
 See \Cref{sec:partial} for more details.
 
 \section{Plotting}
 \subsection{Without \latexify}
-If you don't \latexify, \pyline{matplotlib}'s defaults are used.
+If you don't \latexify, Matplotlib's defaults are used.
 The typeface is sans-serif, and the font a bit larger.
 The code in \Cref{lst:sincos_no_latex} generates \Cref{fig:sincos_no_latex}.
 
@@ -211,7 +211,7 @@ After that, you can include it in the correct location with:
 \end{listing}
 
 Note that figures using additional raster images can only be included by \mintinline{latex}{\input} if they are in the same directory as the main \LaTeX file.
-To load figures from other directories, you can use the \mintinline{latex}{\import} package instead.
+To load figures from other directories, you can use the \mintinline{latex}{import} package instead.
 
 \begin{minted}{latex}
   \usepackage{import}
