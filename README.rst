@@ -35,8 +35,9 @@ You can also use this package to generate plots without using LaTeX. Just don't 
 Usage
 -----
 
+To plot in Python:
+
 .. code-block:: python
-    :caption: myfile.py
 
     import latexipy as lp
 
@@ -47,8 +48,9 @@ Usage
 
 .. image:: https://github.com/masasin/latexipy/raw/master/examples/img/sincos_defaults.png
 
+To display in LaTeX:
+
 .. code-block:: latex
-    :caption: mydoc.tex
 
     \usepackage{pgf}
     \input{filename.pgf}
