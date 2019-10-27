@@ -11,6 +11,6 @@ cryptography==2.0.3
 PyYAML==3.12
 pytest==3.2.1
 pytest-cov==2.5.1
-pytest-runner==2.12
+pytest-runner==5.2
 codecov==2.0.9
 matplotlib==2.0.2
