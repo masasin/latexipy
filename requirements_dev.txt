@@ -7,7 +7,7 @@ tox==2.8.1
 coverage==5.5
 Sphinx==1.6.3
 sphinx-rtd-theme==0.5.1
-cryptography==3.2
+cryptography==3.3.2
 PyYAML==5.4.1
 pytest==6.2.2
 pytest-cov==2.11.1
