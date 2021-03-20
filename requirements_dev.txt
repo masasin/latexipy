@@ -1,7 +1,7 @@
-pip==21.0.1
+ip==21.0.1
 bumpversion==0.6.0
 wheel==0.36.2
-watchdog==0.8.3
+watchdog==2.0.2
 flake8==3.9.0
 tox==2.8.1
 coverage==5.5
