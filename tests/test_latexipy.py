@@ -45,7 +45,7 @@ class TestLatexify:
 
     def test_raises_error_on_bad_backend(self):
         with patch('matplotlib.rcParams.update') as mock_update:
-            with pytest.raises(ValueError):
+            with pytest.raises(ModuleNotFoundError):
                 lp.latexify(new_backend='foo')
 
             mock_update.assert_called_once_with(lp.PARAMS)
