@@ -7,7 +7,7 @@ flake8==3.9.0
 tox==3.23.0
 coverage==5.5
 Sphinx==3.5.3
-sphinx-rtd-theme==0.5.1
+sphinx-rtd-theme==1.0.0
 cryptography==3.4.7
 PyYAML==5.4.1
 pytest==6.2.2
