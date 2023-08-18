@@ -6,7 +6,7 @@ watchdog==2.0.2
 flake8==3.9.0
 tox==3.23.0
 coverage==5.5
-Sphinx==3.5.3
+Sphinx==7.2.2
 sphinx-rtd-theme==0.5.1
 cryptography==3.4.7
 PyYAML==5.4.1
